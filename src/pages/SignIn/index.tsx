@@ -8,7 +8,6 @@ import logoImg from '../../assets/logo.png';
 
 import { Container, Title } from './styles';
 
-
 const SignIn: React.FC = () => {
   return (
     <Container>
@@ -16,11 +15,17 @@ const SignIn: React.FC = () => {
 
       <Title>Faça seu logon</Title>
 
-      <Input />
+      <Input name="email" icon="mail" placeholder="E-mail" />
 
-      <Input />
+      <Input name="password" icon="lock" placeholder="Senha" />
 
-      <Button>Entrar</Button>
+      <Button
+        onPress={() => {
+          console.log('Deu');
+        }}
+      >
+        Entrar
+      </Button>
     </Container>
   );
 };
