@@ -48,7 +48,7 @@ const SignUp: React.FC = () => {
                 console.log('Deu');
               }}
             >
-              Entrar
+              Criar
             </Button>
           </Container>
         </ScrollView>
