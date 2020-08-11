@@ -58,7 +58,8 @@ const SignIn: React.FC = () => {
 
               <Button
                 onPress={() => {
-                  console.log('Deu');
+                  // eslint-disable-next-line no-unused-expressions
+                  formRef.current?.submitForm();
                 }}
               >
                 Entrar
