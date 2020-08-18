@@ -25,7 +25,7 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
       name: fieldName,
       ref: inputValueRef.current,
       path: 'value',
-      setValue(ref: any, value){
+      setValue(ref: any, value) {
         inputValueRef.current.value = value;
         inputElementRef.current.setNativeProps({ text: value });
       },
