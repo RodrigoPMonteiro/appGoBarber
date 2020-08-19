@@ -65,6 +65,7 @@ const SignIn: React.FC = () => {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
 
+        console.log(errors);
         // eslint-disable-next-line no-unused-expressions
         formRef.current?.setErrors(errors);
 
