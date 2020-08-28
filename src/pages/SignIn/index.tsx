@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
+import { useAuth } from '../../hooks/auth';
+
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
@@ -41,43 +43,51 @@ const SignIn: React.FC = () => {
   const inputPasswordRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    // eslint-disable-next-line no-unused-expressions
-    formRef.current?.setErrors({});
-    try {
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório.')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha obrigatória.'),
-      });
+  const { signIn } = useAuth();
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-      // await signIn({
-      //   email: data.email,
-      //   password: data.password,
-      // });
+  // console.log(user);
 
-      // history.push('/dashboard');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      // eslint-disable-next-line no-unused-expressions
+      formRef.current?.setErrors({});
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório.')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória.'),
+        });
 
-        console.log(errors);
-        // eslint-disable-next-line no-unused-expressions
-        formRef.current?.setErrors(errors);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-        return;
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+
+        // history.push('/dashboard');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          console.log(errors);
+          // eslint-disable-next-line no-unused-expressions
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro no login, cheque suas credenciais;',
+        );
       }
-
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro no login, cheque suas credenciais;',
-      );
-    }
-  }, []);
+    },
+    [SignIn],
+  );
 
   return (
     <>
